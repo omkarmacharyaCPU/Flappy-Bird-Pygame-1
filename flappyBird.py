@@ -9,10 +9,7 @@ SCROLL_SPEED = 5
 score = 0
 gameHasStarted = False
 
-deathBoard = pygame.image.load (r"images/deathBoard.png")
-
 minecraftFont = pygame.font.Font (r"fonts/Minecraft.ttf", 25)
-flappyBirdFontTransparent = pygame.font.Font (r"fonts/FlappyBirdyFonty.ttf", 50)
 flappyBirdFontRegular = pygame.font.Font (r"fonts/flappybirdyregularfonty.ttf", 50)
 
 def writeText (text, textColor, font, x, y):
