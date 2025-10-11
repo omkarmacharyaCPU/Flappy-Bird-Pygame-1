@@ -8,6 +8,7 @@ nextChangeInDistance = 100
 font = pygame.font.SysFont (None, 60)
 isAlive = True 
 gameHasStarted = False
+hitPlayed = False
 
 CLOCK = pygame.time.Clock()
 MAX_FPS = 60
@@ -31,10 +32,9 @@ def death():
     BIRD_ACCELERATION = 0
     birdVelocity = 0
     isAlive = False 
-    printText ("Press Enter to Restart!", font, (0, 0, 0), 25, 300)
 
 def reset():
-    global SCROLL_SPEED, BIRD_ACCELERATION, birdVelocity, isAlive, pipes, gameHasStarted, score, birdPositionX, birdPositionY
+    global SCROLL_SPEED, BIRD_ACCELERATION, birdVelocity, isAlive, hitPlayed, pipes, gameHasStarted, score, birdPositionX, birdPositionY
     SCROLL_SPEED = 5
     BIRD_ACCELERATION = 0.5
     birdVelocity = 0
@@ -44,6 +44,7 @@ def reset():
     birdPositionY = 250
     score = 0
     gameHasStarted = False
+    hitPlayed = False
 
 # Background:
 BG_WIDTH = 500
@@ -85,6 +86,10 @@ pipeCooldown = 0 # 60
 PIPE_WIDTH = pipeBottom.get_width()
 PIPE_HEIGHT = pipeBottom.get_height()
 
+# Sounds:
+flapSound = pygame.mixer.Sound (r"sounds/jump.wav")
+hitSound = pygame.mixer.Sound (r"sounds/hit.wav")
+
 isRunning = True
 while (isRunning):
 
@@ -110,6 +115,7 @@ while (isRunning):
             if e.type == pygame.KEYDOWN:
                 if isAlive and e.key == pygame.K_SPACE:
                     birdVelocity = -BIRD_PE
+                    flapSound.play()
                 if not isAlive:
                     if e.key == pygame.K_RETURN:
                         reset()
@@ -118,21 +124,7 @@ while (isRunning):
                 if e.key == pygame.K_SPACE:
                     gameHasStarted = True 
                     birdVelocity = -BIRD_PE
-
-    if (isAlive):
-        changeBirdFrameIndex += 1
-        if (changeBirdFrameIndex < 5):
-            bird = flapUp
-        elif (changeBirdFrameIndex < 10):
-            bird = flapMid 
-        elif (changeBirdFrameIndex < 15):
-            bird = flapDown 
-        elif (changeBirdFrameIndex < 20):
-            bird = flapMid
-            if (changeBirdFrameIndex == 19):
-                changeBirdFrameIndex = 0
-    else:
-        bird = birdDead
+                    flapSound.play()
 
     if gameHasStarted:
         birdPositionY += birdVelocity
@@ -167,6 +159,9 @@ while (isRunning):
 
             if (pipeBottomRect.colliderect (birdRect) or pipeTopRect.colliderect (birdRect)):
                 death()
+                if not hitPlayed:
+                    hitSound.play ()
+                    hitPlayed = True 
 
         if (birdPositionY >= BG_HEIGHT - BIRD_HEIGHT):
             death()
@@ -174,7 +169,6 @@ while (isRunning):
             death()
 
         screen.blit (rotatedBird, (birdPositionX, birdPositionY))
-        printText (f"{score}", font, (0, 0, 0), SCREEN_WIDTH // 2 - 5, SCREEN_HEIGHT // 2 - 300)
 
         if (score >= nextChangeInDistance):
             PIPE_DISTANCE -= 5
@@ -184,6 +178,25 @@ while (isRunning):
     else:
         printText ("Press Space To Start!", font, (0, 0, 0), 35, 300)
         screen.blit (bird, (birdPositionX, birdPositionY))
+
+    if (isAlive):
+        changeBirdFrameIndex += 1
+        if (changeBirdFrameIndex < 5):
+            bird = flapUp
+        elif (changeBirdFrameIndex < 10):
+            bird = flapMid 
+        elif (changeBirdFrameIndex < 15):
+            bird = flapDown 
+        elif (changeBirdFrameIndex < 20):
+            bird = flapMid
+            if (changeBirdFrameIndex == 19):
+                changeBirdFrameIndex = 0
+    else:
+        bird = birdDead
+        printText ("Press Enter to Restart!", font, (0, 0, 0), 25, 300)
+
+    printText (f"{score}", font, (0, 0, 0), SCREEN_WIDTH // 2 - 5, SCREEN_HEIGHT // 2 - 300)
+
 
     pygame.display.flip()
 
