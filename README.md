@@ -44,9 +44,3 @@ For best experience, you can create a shortcut to main.exe for easy access.
 
 You are free to use and share this game for personal projects.  
 Do not redistribute commercially without permission.
-
----
-
-## Demo Video
-
-Check out how the game plays: [Watch Demo](https://youtu.be/YourV)
