@@ -30,7 +30,7 @@ A simple Flappy Bird clone made with Python and Pygame.
 
 ## Download
 
-You can download the game as a ZIP file from the [Releases]([https://github.com/YourUsername/Flappy-Bird/releases](https://github.com/omkarmacharyaCPU/Flappy-Bird-Pygame-1/releases/tag/v1.0)) page.
+You can download the game as a ZIP file from the [Releases](https://github.com/YourUsername/Flappy-Bird/releases](https://github.com/omkarmacharyaCPU/Flappy-Bird-Pygame-1/releases/tag/v1.0) page.
 
 ---
 
